@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">	
+<beans>
+<bean id="sortTotalTaskJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="sortTotalTask" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="sortTotalTaskCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sortTotalTaskJobMethod"></property>
+		<property name="cronExpression" value="0 10 16 * * ?"></property>
+	</bean>
+
+	<bean id="sortDayTaskJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="sortDayTask" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="sortDayTaskCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sortDayTaskJobMethod"></property>
+		<property name="cronExpression" value="0 7 16 * * ?"></property>
+	</bean>
+
+
+	<bean id="realTimeStatiTaskJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="realTimeStatiTask" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+	</bean>
+	<bean id="realTimeStatiTaskCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="realTimeStatiTaskJobMethod"></property>
+		<property name="cronExpression" value="1/10 * * * * ?"></property>
+	</bean>
+
+	<bean id="playerOnlineStatusTaskJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="playerOnlineStatusTask" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+		<property name="concurrent">
+			<value>false</value>
+		</property>
+	</bean>
+	<bean id="playerStatusTaskCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="playerOnlineStatusTaskJobMethod"></property>
+		<property name="cronExpression" value="0 * * * * ?"></property>
+	</bean>
+
+	<bean id="clearMemoryDataTaskJobMethod"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="clearMemoryDataTask" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="clearMemoryDataTaskCronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="clearMemoryDataTaskJobMethod"></property>
+		<property name="cronExpression" value="0 0/2 * * * ?"></property>
+	</bean>
+
+	 <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="sortTotalTaskCronTriggerBean" />
+				<ref bean="sortDayTaskCronTriggerBean" />
+				<ref bean="realTimeStatiTaskCronTriggerBean" />
+				<ref bean="playerStatusTaskCronTriggerBean" />
+				<ref bean="clearMemoryDataTaskCronTriggerBean" />
+			</list>
+		</property>
+	</bean>
+</beans>

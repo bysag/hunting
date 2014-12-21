@@ -31,7 +31,6 @@ public class DataStatisticsController {
         if(StringUtils.isBlank(gameCity)) return "";
         String startDate = DateUtil.format(new Date(), DateUtil.PATTERN_YYYY_MM_DD)+" 00:00:00";
         String endDate = DateUtil.format(new Date(), DateUtil.PATTERN_YYYY_MM_DD)+" 23:59:59";
-        System.out.println("Test");
         return statisticsService.list(gameCity, startDate, endDate, 10, 1);
     }
 
